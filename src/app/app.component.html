@@ -1,6 +1,19 @@
 <mat-drawer-container class="designer-container">
-  <mat-drawer mode="side" opened>SideBar Components</mat-drawer>
-  <mat-drawer-content><div #drawflow id="drawflow"></div></mat-drawer-content>
+  <mat-drawer mode="side" opened>
+    <mat-list role="list" class="components-list">
+      <mat-list-item 
+        role="listitem" 
+        class="components-list-item" 
+        *ngFor="let component of components" 
+        (dragstart)="onDrag($event,component.id)" 
+        draggable="true" >
+        {{component.label}}
+      </mat-list-item>
+    </mat-list>
+  </mat-drawer>
+  <mat-drawer-content>
+    <div #drawflow id="drawflow" (drop)="onDrop($event)" (dragover)="allowDrop($event)"></div>
+  </mat-drawer-content>
 </mat-drawer-container>
 
 <router-outlet></router-outlet>
