@@ -1,0 +1,15 @@
+.components-list {
+    line-height: 50px;
+    border-bottom: 1px solid var(--border-color);
+    user-select: none;
+    background-color: #a1a1a1;
+    padding: 3px;
+ }
+ 
+ .components-list-item {
+    background-color: #cacaca;
+    cursor: move !important;
+    padding: 20px;
+    border: 1px solid #a1a1a1;
+ }
+ 
