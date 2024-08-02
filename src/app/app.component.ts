@@ -1,4 +1,4 @@
-import { Component, ViewChild} from '@angular/core';
+import { Component, ViewChild, ComponentRef, Injector, ViewContainerRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import {MatSidenavModule} from '@angular/material/sidenav';
@@ -6,20 +6,30 @@ import { CollectionListComponent } from './components/collection-list/collection
 import Drawflow from 'drawflow';
 import { ComponentInfo } from './types/component-info';
 import { components } from './data/components';
+import { CollectionItemComponent } from './components/collection-item/collection-item.component';
+import { DynamicContainerComponent } from './components/dynamic-container/dynamic-container-component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterOutlet,MatSidenavModule, CollectionListComponent], 
+  imports: [CommonModule, RouterOutlet,MatSidenavModule, CollectionListComponent, DynamicContainerComponent], 
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
   @ViewChild('drawflow') wrapper:any = null;
   editor:any = null;
-  html:any = "\            <div>\n              <div class=\"title-box\"><i class=\"fas fa-code\"></i>{{title}}</div>\n              <div class=\"box\">\n                </div>\n            </div>\n            ";
 
   components:Array<ComponentInfo> = components;
+  private dynamicContainer!: ComponentRef<DynamicContainerComponent>;
+
+  constructor(private viewContainerRef: ViewContainerRef, private injector: Injector) {}
+
+  ngOnInit() {
+    // Cria uma instância do DynamicContainerComponent programaticamente
+    const componentFactory = this.viewContainerRef.createComponent(DynamicContainerComponent, { injector: this.injector });
+    this.dynamicContainer = componentFactory;
+  }
 
   ngAfterViewInit(){
     this.editor = new Drawflow(this.wrapper.nativeElement);
@@ -33,7 +43,9 @@ export class AppComponent {
     event.preventDefault();
   }
   addNodeToDrawFlow(component:ComponentInfo, posX:number, posY:number){
-    const html = this.html.replaceAll("{{title}}",component.label);
+    var item = new CollectionItemComponent();
+    item.title = component.label;
+    const html = this.dynamicContainer.instance.renderComponent(component.label);
     this.editor.addNode(component.name, component.inputs, component.outputs, posX, posY, component.name, {}, html );
   }
 }

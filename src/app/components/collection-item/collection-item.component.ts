@@ -4,8 +4,8 @@ import { Component } from '@angular/core';
   selector: 'app-component',
   standalone: true,
   imports: [],
-  templateUrl: './component.component.html',
-  styleUrl: './component.component.scss'
+  templateUrl: './collection-item.component.html',
+  styleUrl: './collection-item.component.scss'
 })
 export class CollectionItemComponent {
   title: string = "component title";
