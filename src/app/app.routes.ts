@@ -1,7 +1,9 @@
 import { Routes } from '@angular/router';
-import { DesignerComponent } from './components/designer/designer.component';
+import { DesignerPageComponent } from './pages/designer-page/designer-page.component';
+import { HomePageComponent } from './pages/home-page/home-page.component';
 
 export const routes: Routes = [  
-    { path: 'designer', component: DesignerComponent },  
-    { path: '',   redirectTo: '/designer', pathMatch: 'full' }
+    { path: 'designer', component: DesignerPageComponent },  
+    { path: '',  component: HomePageComponent },
+    { path: '**', redirectTo: "/" }
 ];
