@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { StepSelectorComponent } from './step-selector.component';
 
-describe('CollectionListComponent', () => {
+describe('StepSelectorComponent', () => {
   let component: StepSelectorComponent;
   let fixture: ComponentFixture<StepSelectorComponent>;
 

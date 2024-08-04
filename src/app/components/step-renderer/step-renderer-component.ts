@@ -1,21 +1,22 @@
 import { Component, ViewChild, ViewContainerRef, ComponentRef, ChangeDetectorRef, Injector } from '@angular/core';
 import { StepComponent } from '../step/step.component';
+import { ComponentInfo } from '../../types/component-info';
 
 @Component({
   selector: 'app-dynamic-container',
   standalone: true,
   template: '<ng-template #container></ng-template>'
 })
-export class DynamicContainerComponent {
+export class StepRendererComponent {
   @ViewChild('container', { read: ViewContainerRef }) container!: ViewContainerRef;
 
   constructor(private injector: Injector, private cdr: ChangeDetectorRef) {}
 
-  renderComponent(title: string) {
+  renderComponent(componentInfo: ComponentInfo) {
     this.container.clear();
 
     const componentRef: ComponentRef<StepComponent> = this.container.createComponent(StepComponent, { injector: this.injector });
-    componentRef.instance.title = title;
+    componentRef.instance.title = componentInfo.label;
 
     this.cdr.detectChanges();
     

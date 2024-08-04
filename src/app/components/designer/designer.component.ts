@@ -1,5 +1,5 @@
 import { Component,ViewChild, ComponentRef, Injector, ViewContainerRef } from '@angular/core';
-import { DynamicContainerComponent } from '../dynamic-container/dynamic-container-component';
+import { StepRendererComponent } from '../step-renderer/step-renderer-component';
 import { StepComponent } from '../step/step.component';
 import { StepSelectorComponent } from '../step-selector/step-selector.component';
 import { SharedModule } from '../../shared/shared.module';
@@ -20,12 +20,12 @@ export class DesignerComponent {
   editor:any = null;
 
   components:Array<ComponentInfo> = components;
-  private dynamicContainer!: ComponentRef<DynamicContainerComponent>;
+  private stepRenderer!: ComponentRef<StepRendererComponent>;
 
   constructor(private viewContainerRef: ViewContainerRef, private injector: Injector) {}
 
   ngOnInit() {
-    this.dynamicContainer = this.viewContainerRef.createComponent(DynamicContainerComponent, { injector: this.injector });
+    this.stepRenderer = this.viewContainerRef.createComponent(StepRendererComponent, { injector: this.injector });
   }
 
   ngAfterViewInit(){
@@ -33,16 +33,14 @@ export class DesignerComponent {
     this.editor.start();
   }
   onDrop(event:any){
-    const id:number = event.dataTransfer.getData("id");
-    this.addNodeToDrawFlow(this.components[id], event.clientX, event.clientY);
+    this.addNodeToDrawFlow(event.dataTransfer.getData("id"), event.clientX, event.clientY);
   }
   allowDrop(event:any){
     event.preventDefault();
   }
-  addNodeToDrawFlow(component:ComponentInfo, posX:number, posY:number){
-    var item = new StepComponent();
-    item.title = component.label;
-    const html = this.dynamicContainer.instance.renderComponent(component.label);
+  addNodeToDrawFlow(componentId:number, posX:number, posY:number){
+    const component = this.components[componentId];
+    const html = this.stepRenderer.instance.renderComponent(component);
     this.editor.addNode(component.name, component.inputs, component.outputs, posX, posY, component.name, {}, html );
   }
 }
