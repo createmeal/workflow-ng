@@ -4,14 +4,14 @@ import {MatListModule} from '@angular/material/list';
 import { ComponentInfo } from '../../types/component-info';
 
 @Component({
-  selector: 'app-collection-list',
+  selector: 'app-step-selector',
   standalone: true,
   imports: [CommonModule,MatListModule],
-  templateUrl: './collection-list.component.html',
-  styleUrl: './collection-list.component.scss'
+  templateUrl: './step-selector.component.html',
+  styleUrl: './step-selector.component.scss'
 })
 
-export class CollectionListComponent {
+export class StepSelectorComponent {
   @Input() items:Array<ComponentInfo> = [];
     
   onDrag(event:any,id:any){

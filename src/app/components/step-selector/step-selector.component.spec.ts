@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CollectionListComponent } from './collection-list.component';
+import { StepSelectorComponent } from './step-selector.component';
 
 describe('CollectionListComponent', () => {
-  let component: CollectionListComponent;
-  let fixture: ComponentFixture<CollectionListComponent>;
+  let component: StepSelectorComponent;
+  let fixture: ComponentFixture<StepSelectorComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [CollectionListComponent]
+      imports: [StepSelectorComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(CollectionListComponent);
+    fixture = TestBed.createComponent(StepSelectorComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

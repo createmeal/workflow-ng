@@ -1,0 +1,10 @@
+<mat-drawer-container class="designer-container">
+    <mat-drawer mode="side" opened>
+        <div class="collections-container">
+            <app-step-selector [items]="components"></app-step-selector>
+        </div>
+    </mat-drawer>
+    <mat-drawer-content>
+        <div #drawflow id="drawflow" (drop)="onDrop($event)" (dragover)="allowDrop($event)"></div>
+    </mat-drawer-content>
+</mat-drawer-container>

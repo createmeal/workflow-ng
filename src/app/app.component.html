@@ -1,13 +1,1 @@
-<mat-drawer-container class="designer-container">
-  <mat-drawer mode="side" opened>
-    <div class="collections-container">
-        <app-collection-list [items]="components"></app-collection-list>
-    </div>
-    
-  </mat-drawer>
-  <mat-drawer-content>
-    <div #drawflow id="drawflow" (drop)="onDrop($event)" (dragover)="allowDrop($event)"></div>
-  </mat-drawer-content>
-</mat-drawer-container>
-
 <router-outlet></router-outlet>

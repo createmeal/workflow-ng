@@ -1,0 +1,40 @@
+.designer-container {
+    width: 100%;
+    height: 100vh;
+    margin: 0;
+    border: 1px solid #555;
+    /* The background property is added to clearly distinguish the borders between drawer and main
+        content */
+    background: transparent;
+ }
+ 
+ .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #494949;
+ }
+ 
+ .container {
+    min-height: calc(100vh - 100px);
+ }
+ 
+ .column {
+    border-right: 1px solid #494949;
+ }
+ 
+ .column ul {
+    padding-inline-start: 0px;
+    padding: 10px 10px;
+ 
+ }
+ 
+ .column li {
+    background: transparent;
+ }
+ 
+ .collections-container {
+    background: #a1a1a1 !important;
+    width: 100%;
+    height: 100%;
+ }

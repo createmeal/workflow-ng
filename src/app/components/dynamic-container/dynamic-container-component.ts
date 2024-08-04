@@ -1,5 +1,5 @@
 import { Component, ViewChild, ViewContainerRef, ComponentRef, ChangeDetectorRef, Injector } from '@angular/core';
-import { CollectionItemComponent } from '../collection-item/collection-item.component';
+import { StepComponent } from '../step/step.component';
 
 @Component({
   selector: 'app-dynamic-container',
@@ -14,7 +14,7 @@ export class DynamicContainerComponent {
   renderComponent(title: string) {
     this.container.clear();
 
-    const componentRef: ComponentRef<CollectionItemComponent> = this.container.createComponent(CollectionItemComponent, { injector: this.injector });
+    const componentRef: ComponentRef<StepComponent> = this.container.createComponent(StepComponent, { injector: this.injector });
     componentRef.instance.title = title;
 
     this.cdr.detectChanges();
