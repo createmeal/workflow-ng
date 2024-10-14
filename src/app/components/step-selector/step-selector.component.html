@@ -4,7 +4,7 @@
     class="components-list-item" 
     *ngFor="let item of items" 
     (dragstart)="onDrag($event,item.id)" 
-    draggable="true" >
-    {{item.label}}
+    draggable="true">
+    {{item.name}}
   </mat-list-item>
 </mat-list>

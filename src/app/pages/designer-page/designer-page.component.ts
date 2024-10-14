@@ -9,5 +9,4 @@ import { DesignerComponent } from '../../components/designer/designer.component'
   styleUrl: './designer-page.component.scss'
 })
 export class DesignerPageComponent {
-
 }

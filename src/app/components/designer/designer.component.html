@@ -1,3 +1,9 @@
+<input type="file" class="file-input" (change)="onImport($event)" #fileUpload hidden>
+<mat-toolbar class="toolbar" color="primary">
+    <button class="button" mat-flat-button (click)="fileUpload.click()">Import</button>
+    <button class="button" mat-flat-button (click)="onExport()">Export</button>
+    <button class="button" mat-flat-button disabled (click)="onSave()">Save</button>
+</mat-toolbar>
 <mat-drawer-container class="designer-container">
     <mat-drawer mode="side" opened>
         <div class="collections-container">
