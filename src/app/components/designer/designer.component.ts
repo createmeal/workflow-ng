@@ -7,6 +7,7 @@ import Drawflow from 'drawflow';
 import { ComponentInfo } from '../../types/component-info';
 import { StepService } from '../../services/step-service';
 import { PackageService } from '../../services/package-service';
+import { PackageEntity } from '../../entities/package.entity';
 @Component({
   selector: 'app-designer',
   standalone: true,
@@ -55,7 +56,10 @@ export class DesignerComponent {
   onExport(){
     this.packageService.export(this.editor.export());
   }
-  onSave(){
-    
+  async onSave(){
+    const result = await this.packageService.save(this.editor.export());
+    if(result["_id"]){
+      console.log(result["_id"]);
+    }
   }
 }
