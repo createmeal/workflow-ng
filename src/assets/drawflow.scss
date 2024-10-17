@@ -12,14 +12,48 @@
     background: var(--dfNodeBackgroundColor);
     color: var(--dfNodeTextColor);
     border: var(--dfNodeBorderSize)  solid var(--dfNodeBorderColor);
-    border-radius: var(--dfNodeBorderRadius);
-    min-height: var(--dfNodeMinHeight);
-    width: auto;
-    min-width: var(--dfNodeMinWidth);
     padding-top: var(--dfNodePaddingTop);
     padding-bottom: var(--dfNodePaddingBottom);
     -webkit-box-shadow: var(--dfNodeBoxShadowHL) var(--dfNodeBoxShadowVL) var(--dfNodeBoxShadowBR) var(--dfNodeBoxShadowS) var(--dfNodeBoxShadowColor);
     box-shadow:  var(--dfNodeBoxShadowHL) var(--dfNodeBoxShadowVL) var(--dfNodeBoxShadowBR) var(--dfNodeBoxShadowS) var(--dfNodeBoxShadowColor);
+    .input {
+      left: var(--dfInputLeft);
+      background: var(--dfInputBackgroundColor);
+      border: var(--dfInputBorderSize)  solid var(--dfInputBorderColor);
+      border-radius: var(--dfInputBorderRadius);
+      height: var(--dfInputHeight);
+      width: var(--dfInputWidth);
+    }
+  }
+  .rectangle {
+    border-radius: var(--dfNodeBorderRadius) !important;
+    min-height: var(--dfNodeMinHeight) !important;
+    width: auto !important;
+    min-width: var(--dfNodeMinWidth) !important;
+  }
+  .circle {
+    height: 100px !important;
+    width: 100px !important;
+    border-radius: 50% !important;
+  }
+  .diamond {
+    width:100px !important;
+    height:100px !important;
+    transform: rotate(-45deg) !important;  
+    .drawflow_content_node {
+      transform: rotate(45deg) !important;  
+    }
+    .input {
+      top: -62px !important;
+      left: 106px !important;
+    }
+    .output_1 {
+      top: 80px !important;
+    }
+    .output_2 {
+      top: -75px !important;
+      left: -125px !important;
+    }
   }
   
   .drawflow .drawflow-node:hover {
@@ -39,16 +73,7 @@
     -webkit-box-shadow: var(--dfNodeSelectedBoxShadowHL) var(--dfNodeSelectedBoxShadowVL) var(--dfNodeSelectedBoxShadowBR) var(--dfNodeSelectedBoxShadowS) var(--dfNodeSelectedBoxShadowColor);
     box-shadow:  var(--dfNodeSelectedBoxShadowHL) var(--dfNodeSelectedBoxShadowVL) var(--dfNodeSelectedBoxShadowBR) var(--dfNodeSelectedBoxShadowS) var(--dfNodeSelectedBoxShadowColor);
   }
-  
-.drawflow .drawflow-node .input {
-    left: var(--dfInputLeft);
-    background: var(--dfInputBackgroundColor);
-    border: var(--dfInputBorderSize)  solid var(--dfInputBorderColor);
-    border-radius: var(--dfInputBorderRadius);
-    height: var(--dfInputHeight);
-    width: var(--dfInputWidth);
-  }
-  
+    
   .drawflow .drawflow-node .input:hover {
     background: var(--dfInputHoverBackgroundColor);
     border: var(--dfInputHoverBorderSize)  solid var(--dfInputHoverBorderColor);

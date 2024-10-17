@@ -9,6 +9,7 @@ import { StepService } from '../../services/step-service';
 import { PackageService } from '../../services/package-service';
 import { DrawFlowPackageModel } from '../../models/drawflow-package-model';
 import { DrawFlowPackageConverter } from '../../converters/drawflow-package-converter';
+import { StepEntity } from '../../entities/step.entity';
 @Component({
   selector: 'app-designer',
   standalone: true,
@@ -21,7 +22,7 @@ export class DesignerComponent {
   editor:Drawflow|null = null;
   package: DrawFlowPackageModel|null = null;
 
-  components:Array<ComponentInfo> = [];
+  components:Array<StepEntity> = [];
   private stepRenderer!: ComponentRef<StepRendererComponent>;
   constructor(private viewContainerRef: ViewContainerRef, 
     private injector: Injector, 
@@ -55,17 +56,17 @@ export class DesignerComponent {
   allowDrop(event:any){
     event.preventDefault();
   }
-  addNodeToDrawFlow(componentId:number, posX:number, posY:number){    
-    const component = this.components.find((item: ComponentInfo)=> item.id === componentId);
-    if(!component){
+  addNodeToDrawFlow(componentId:string, posX:number, posY:number){    
+    const stepEntity = this.components.find((item: StepEntity)=> item.id === componentId);
+    if(!stepEntity){
       throw Error("Step component not found");
     }
     if(!this.editor){
       throw Error("The Editor is null");
     }
-
-    const html = this.stepRenderer.instance.renderComponent(component);
-    this.editor.addNode(component.name, component.inputsCount, component.outputsCount, posX, posY, component.name, {}, html,false );
+    
+    const html = this.stepRenderer.instance.renderComponent(stepEntity);
+    this.editor.addNode(stepEntity.name, stepEntity.inputsCount, stepEntity.outputsCount, posX, posY, `${stepEntity.name} ${stepEntity.class}`, stepEntity.variables, html,false );
   }
   async onImport(event: Event){
     if(!this.editor){

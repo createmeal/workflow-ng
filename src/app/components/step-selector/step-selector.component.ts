@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {MatListModule} from '@angular/material/list';
-import { ComponentInfo } from '../../types/component-info';
+import { StepEntity } from '../../entities/step.entity';
 
 @Component({
   selector: 'app-step-selector',
@@ -12,7 +12,7 @@ import { ComponentInfo } from '../../types/component-info';
 })
 
 export class StepSelectorComponent {
-  @Input() items:Array<ComponentInfo> = [];
+  @Input() items:Array<StepEntity> = [];
     
   onDrag(event:any,id:any){
     event.dataTransfer.setData("id", id);

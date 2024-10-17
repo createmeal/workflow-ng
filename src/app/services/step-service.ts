@@ -1,19 +1,11 @@
 import { Injectable } from "@angular/core";
 import { ComponentInfo } from "../types/component-info";
+import { StepEntity } from "../entities/step.entity";
 
 @Injectable({  providedIn: 'root'})
 export class StepService {
-    async list(): Promise<Array<ComponentInfo>>{
+    async list(): Promise<Array<StepEntity>>{
         const response = await fetch("http://localhost:3000/api/steps");
-        const results = await response.json();
-        return results.map((c: any)=> {
-            const component: ComponentInfo = {
-              id: c["_id"],
-              name: c["name"],
-              inputsCount: c["inputsCount"],
-              outputsCount: c["outputsCount"]
-            }
-            return component;
-          })
+        return await response.json();
     }
 }

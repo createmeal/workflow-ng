@@ -27,6 +27,7 @@ export class DrawFlowStepConverter {
             name: data.name,
             description: data.description,
             variables: data.data,
+            class: data.class,
             action: data.action,
             inputsCount: 0,
             outputsCount: 0,

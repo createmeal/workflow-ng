@@ -5,7 +5,8 @@ export interface StepEntity {
     name: string,
     description: string,
     action: ActionEntity | undefined,
-    variables: any
+    variables: any,
+    class: string,
     inputsCount: number,
     outputsCount: number,
     inputs:  StepConnectorEntity[],
