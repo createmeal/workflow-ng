@@ -5,7 +5,7 @@ export interface PageEntity {
     description: string,
     variables: any
     steps: StepEntity[],
-    startStepName: string,
+    startStepId: string,
     createdAt: Date,
     updatedAt: Date
   }

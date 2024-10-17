@@ -1,0 +1,65 @@
+{
+    "drawflow": {
+      "Home": {
+        "data": {
+          "1": {
+            "id": 1,
+            "name": "HttpRequestNode",
+            "data": {
+              "url": "https://dog-api.kinduff.com/api/facts",
+              "method": "GET",
+              "outputStatus": "http_status",
+              "outputContentType": "http_contenttype",
+              "outputContent": "http_content"
+            },
+            "class": "HttpRequestNode",
+            "html": "HttpRequestNode",
+            "typenode": "vue",
+            "inputs": {},
+            "outputs": {
+              "output_1": {
+                "connections": [
+                  {
+                    "node": "2",
+                    "output": "input_1"
+                  }
+                ]
+              }
+            },
+            "pos_x": 137,
+            "pos_y": 89
+          },
+          "2": {
+            "id": 2,
+            "name": "ConsoleNode",
+            "data": {
+              "message": "Dog facts: {{http_content}}."
+            },
+            "class": "ConsoleNode",
+            "html": "ConsoleNode",
+            "typenode": "vue",
+            "inputs": {
+              "input_1": {
+                "connections": [
+                  {
+                    "node": "1",
+                    "input": "output_1"
+                  }
+                ]
+              }
+            },
+            "outputs": {
+              "output_1": {
+                "connections": []
+              },
+              "output_2": {
+                "connections": []
+              }
+            },
+            "pos_x": 625,
+            "pos_y": 94
+          }
+        }
+      }
+    }
+  }

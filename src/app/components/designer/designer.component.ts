@@ -7,7 +7,8 @@ import Drawflow from 'drawflow';
 import { ComponentInfo } from '../../types/component-info';
 import { StepService } from '../../services/step-service';
 import { PackageService } from '../../services/package-service';
-import { PackageEntity } from '../../entities/package.entity';
+import { DrawFlowPackageModel } from '../../models/drawflow-package-model';
+import { DrawFlowPackageConverter } from '../../converters/drawflow-package-converter';
 @Component({
   selector: 'app-designer',
   standalone: true,
@@ -17,14 +18,16 @@ import { PackageEntity } from '../../entities/package.entity';
 })
 export class DesignerComponent {
   @ViewChild('drawflow') wrapper:any = null;
-  editor:any = null;
+  editor:Drawflow|null = null;
+  package: DrawFlowPackageModel|null = null;
 
   components:Array<ComponentInfo> = [];
   private stepRenderer!: ComponentRef<StepRendererComponent>;
   constructor(private viewContainerRef: ViewContainerRef, 
     private injector: Injector, 
     private readonly packageService: PackageService,
-    private readonly stepService: StepService) {}
+    private readonly stepService: StepService) {
+    }
 
   ngOnInit() {
     this.stepRenderer = this.viewContainerRef.createComponent(StepRendererComponent, { injector: this.injector });
@@ -32,8 +35,19 @@ export class DesignerComponent {
   }
 
   ngAfterViewInit(){
+    this.startEditor();
+  }
+  startEditor(){
     this.editor = new Drawflow(this.wrapper.nativeElement);
     this.editor.start();
+    this.package = {
+      id: "",
+      name: "",
+      description: "",
+      drawflow: {},
+      startPageName: "",
+      variables: {}
+    };
   }
   onDrop(event:any){
     this.addNodeToDrawFlow(event.dataTransfer.getData("id"), event.clientX, event.clientY);
@@ -46,18 +60,34 @@ export class DesignerComponent {
     if(!component){
       throw Error("Step component not found");
     }
+    if(!this.editor){
+      throw Error("The Editor is null");
+    }
 
     const html = this.stepRenderer.instance.renderComponent(component);
-    this.editor.addNode(component.name, component.inputsCount, component.outputsCount, posX, posY, component.name, {}, html );
+    this.editor.addNode(component.name, component.inputsCount, component.outputsCount, posX, posY, component.name, {}, html,false );
   }
-  async onImport(event: any){
-    this.editor.import(await this.packageService.import(event));
+  async onImport(event: Event){
+    if(!this.editor){
+      throw Error("The Editor is null");
+    }
+
+    this.package = await this.packageService.import(event);
+    this.editor.import(DrawFlowPackageConverter.toNativeModel(this.package));
   }
   onExport(){
-    this.packageService.export(this.editor.export());
+    if(!this.editor){
+      throw Error("The Editor is null");
+    }
+    this.package = DrawFlowPackageConverter.toExtendedModel(this.editor.export(),this.package);
+    this.packageService.export(this.package);
   }
   async onSave(){
-    const result = await this.packageService.save(this.editor.export());
+    if(!this.editor){
+      throw Error("The Editor is null");
+    }
+    this.package = DrawFlowPackageConverter.toExtendedModel(this.editor.export(),this.package);
+    const result = await this.packageService.save(this.package);
     if(result["_id"]){
       console.log(result["_id"]);
     }

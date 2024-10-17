@@ -1,26 +1,37 @@
 import { Injectable } from "@angular/core";
 import { v4 as uuidv4 } from "uuid";
 import { download, upload } from "./file-service";
+import { DrawFlowPackageModel } from "../models/drawflow-package-model";
+import { DrawFlowPackageConverter } from "../converters/drawflow-package-converter";
 
 @Injectable({ providedIn: 'root' })
 export class PackageService {
-    export(jsonData: any) {
-        download(JSON.stringify(jsonData, null, 2), `${uuidv4()}.json`, 'text/plain');
+    export(data: DrawFlowPackageModel) {
+        download(JSON.stringify(data, null, 2), `${uuidv4()}.json`, 'text/plain');
     }
-    async import(event: any) {
-        const content = await upload(event.target.files[0]);
-        return JSON.parse(content as string);
+    async import(event: Event): Promise<DrawFlowPackageModel> {
+        const input: HTMLInputElement|null = event.target as HTMLInputElement;
+        if(!input){
+            throw Error("File input not found");
+        }
+        const files:FileList|null = input.files;
+        if(files && (files.length??0)>0){
+            const content = await upload(files[0]);
+            const data:DrawFlowPackageModel = JSON.parse(content as string);
+            return data;
+        }
+        throw Error("File not found");
     }
-    async save(data: any) {
+    async save(data: DrawFlowPackageModel) {
         const myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
-        const method = data["id"] ? "PUT" : "POST";
-        const url = data["id"] ? `http://localhost:3000/api/packages/${data.id}` : `http://localhost:3000/api/packages`;
+        const method = data.id ? "PUT" : "POST";
+        const url = data.id ? `http://localhost:3000/api/packages/${data.id}` : `http://localhost:3000/api/packages`;
 
         const requestOptions: any = {
             method: method,
             headers: myHeaders,
-            body: JSON.stringify(data),
+            body: JSON.stringify(DrawFlowPackageConverter.toPackageEntity(data)),
             redirect: "follow"
         };
         const response = await fetch(url, requestOptions);

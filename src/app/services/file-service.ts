@@ -13,7 +13,7 @@ export async function upload(file:File){
                 if(!e.target?.result){
                     reject("File content is null");
                 }
-                resolve(e.target!.result);
+                resolve(e.target?.result);
             }
           
             fr.readAsText(file);
