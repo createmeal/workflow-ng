@@ -3,11 +3,21 @@ import { v4 as uuidv4 } from "uuid";
 import { download, upload } from "./file-service";
 import { DrawFlowPackageModel } from "../models/drawflow-package-model";
 import { DrawFlowPackageConverter } from "../converters/drawflow-package-converter";
+import { PackageEntity } from "../entities/package.entity";
 
 @Injectable({ providedIn: 'root' })
 export class PackageService {
     export(data: DrawFlowPackageModel) {
         download(JSON.stringify(data, null, 2), `${uuidv4()}.json`, 'text/plain');
+    }
+    async list(page: number=1, pageSize: number=50): Promise<Array<PackageEntity>>{
+        const requestOptions: any = {
+            method: "GET",
+            redirect: "follow"
+          };
+          
+          const response = await fetch(`http://localhost:3000/api/packages?page=${page}&pageSize=${pageSize}`, requestOptions);
+          return await response.json();
     }
     async import(event: Event): Promise<DrawFlowPackageModel> {
         const input: HTMLInputElement|null = event.target as HTMLInputElement;
