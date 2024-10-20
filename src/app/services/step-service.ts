@@ -1,5 +1,4 @@
 import { Injectable } from "@angular/core";
-import { ComponentInfo } from "../types/component-info";
 import { StepEntity } from "../entities/step.entity";
 
 @Injectable({  providedIn: 'root'})

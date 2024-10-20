@@ -1,8 +1,12 @@
-<input type="file" class="file-input" (change)="onImport($event)" #fileUpload hidden>
+
 <mat-toolbar class="toolbar" color="primary">
-    <button class="button" mat-flat-button (click)="fileUpload.click()">Import</button>
-    <button class="button" mat-flat-button (click)="onExport()">Export</button>
-    <button class="button" mat-flat-button (click)="onSave()">Save</button>
+    <app-nav></app-nav>
+    <div>
+        <input type="file" class="file-input" (change)="onImport($event)" #fileUpload hidden>
+        <button class="button" mat-flat-button (click)="fileUpload.click()">Import</button>
+        <button class="button" mat-flat-button (click)="onExport()">Export</button>
+        <button class="button" mat-flat-button (click)="onSave()">Save</button>
+    </div>
 </mat-toolbar>
 <mat-drawer-container class="designer-container">
     <mat-drawer mode="side" opened>

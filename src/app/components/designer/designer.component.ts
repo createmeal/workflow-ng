@@ -4,16 +4,16 @@ import { StepSelectorComponent } from '../step-selector/step-selector.component'
 import { SharedModule } from '../../shared/shared.module';
 
 import Drawflow from 'drawflow';
-import { ComponentInfo } from '../../types/component-info';
 import { StepService } from '../../services/step-service';
 import { PackageService } from '../../services/package-service';
 import { DrawFlowPackageModel } from '../../models/drawflow-package-model';
 import { DrawFlowPackageConverter } from '../../converters/drawflow-package-converter';
 import { StepEntity } from '../../entities/step.entity';
+import { NavComponent } from "../nav/nav.component";
 @Component({
   selector: 'app-designer',
   standalone: true,
-  imports: [SharedModule,StepSelectorComponent],
+  imports: [SharedModule, StepSelectorComponent, NavComponent],
   templateUrl: './designer.component.html',
   styleUrl: './designer.component.scss'
 })
