@@ -5,6 +5,7 @@ import { SharedModule } from '../../shared/shared.module';
 import { NavComponent } from '../../components/nav/nav.component';
 import { StepService } from '../../services/step-service';
 import { StepEntity } from '../../entities/step.entity';
+import { EntityColumn } from '../../models/entity-table';
 
 @Component({
   selector: 'app-steps-page',
@@ -14,7 +15,13 @@ import { StepEntity } from '../../entities/step.entity';
   styleUrl: './steps-page.component.scss'
 })
 export class StepsPageComponent {
-  displayedColumns: string[] = ['name','description','actions'];
+  columns: EntityColumn[] = [
+    {name: 'id', label: "Id", visible: true},
+    {name: 'name', label: "Name", visible: true},
+    {name: 'description', label: "Description", visible: true},
+    {name: 'actions', label: "Actions", visible: true}
+  ]
+  displayedColumns: string[] = this.columns.filter(item=>item.visible).map(item=>item.name);
   dataSource: MatTableDataSource<StepEntityDataSource>;
   actions: any = [{
     name: "Edit",
