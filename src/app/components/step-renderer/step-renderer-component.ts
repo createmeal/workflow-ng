@@ -1,6 +1,7 @@
 import { Component, ViewChild, ViewContainerRef, ComponentRef, ChangeDetectorRef, Injector } from '@angular/core';
 import { StepComponent } from '../step/step.component';
 import { StepEntity } from '../../entities/step.entity';
+import { DrawFlowStepModel } from '../../models/drawflow-package-model';
 
 @Component({
   selector: 'app-dynamic-container',
@@ -12,7 +13,7 @@ export class StepRendererComponent {
 
   constructor(private injector: Injector, private cdr: ChangeDetectorRef) {}
 
-  renderComponent(stepEntity: StepEntity) {
+  renderComponent(stepEntity: StepEntity | DrawFlowStepModel) {
     this.container.clear();
 
     const componentRef: ComponentRef<StepComponent> = this.container.createComponent(StepComponent, { injector: this.injector });

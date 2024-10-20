@@ -1,5 +1,6 @@
 <mat-toolbar class="toolbar" color="primary">
     <app-nav></app-nav>
+    <a class="button" mat-flat-button (click)="onCreate($event)">Create Step</a>
   </mat-toolbar>
   <div class="mat-elevation-z8">
       <table mat-table [dataSource]="dataSource">  

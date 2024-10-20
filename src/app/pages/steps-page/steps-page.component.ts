@@ -57,6 +57,9 @@ export class StepsPageComponent {
   onDelete(event: Event){
     throw Error("Not implemented");
   }
+  onCreate(event: Event){
+    throw Error("Not implemented");
+  }
 }
 
 export interface StepEntityDataSource extends StepEntity {

@@ -6,6 +6,7 @@ export interface StepEntity {
     description: string,
     action: ActionEntity | undefined,
     variables: any,
+    html: string,
     class: string,
     inputsCount: number,
     outputsCount: number,

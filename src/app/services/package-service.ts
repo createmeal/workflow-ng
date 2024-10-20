@@ -5,10 +5,28 @@ import { DrawFlowPackageModel } from "../models/drawflow-package-model";
 import { DrawFlowPackageConverter } from "../converters/drawflow-package-converter";
 import { PackageEntity } from "../entities/package.entity";
 
+const packages: PackageEntity[] = [];
+const store = {
+    packages: packages
+}
+
 @Injectable({ providedIn: 'root' })
 export class PackageService {
     export(data: DrawFlowPackageModel) {
         download(JSON.stringify(data, null, 2), `${uuidv4()}.json`, 'text/plain');
+    }
+    async get(id: string): Promise<PackageEntity>{
+        const match = store.packages.find((item: PackageEntity)=>item.id === id);
+        if(match) return match;
+        const requestOptions: any = {
+            method: "GET",
+            redirect: "follow"
+          };
+          
+          const response = await fetch(`http://localhost:3000/api/packages/${id}`, requestOptions);
+          const packageEntity:PackageEntity = await response.json();
+          store.packages.push(packageEntity);
+          return packageEntity;
     }
     async list(page: number=1, pageSize: number=50): Promise<Array<PackageEntity>>{
         const requestOptions: any = {
@@ -17,7 +35,8 @@ export class PackageService {
           };
           
           const response = await fetch(`http://localhost:3000/api/packages?page=${page}&pageSize=${pageSize}`, requestOptions);
-          return await response.json();
+          store.packages = await response.json();
+          return store.packages;
     }
     async import(event: Event): Promise<DrawFlowPackageModel> {
         const input: HTMLInputElement|null = event.target as HTMLInputElement;
@@ -46,5 +65,17 @@ export class PackageService {
         };
         const response = await fetch(url, requestOptions);
         return await response.json();
+    }
+    async delete(id: string){
+        const requestOptions: any = {
+            method: "DELETE",
+            redirect: "follow"
+        };
+          
+        const response = await fetch(`http://localhost:3000/api/packages/${id}`, requestOptions);
+        const packageEntity:PackageEntity = await response.json();
+          
+        store.packages = store.packages.filter((item: PackageEntity)=>item.id !== id);
+        return packageEntity;
     }
 }

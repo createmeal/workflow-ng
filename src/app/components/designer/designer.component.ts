@@ -1,4 +1,4 @@
-import { Component,ViewChild, ComponentRef, Injector, ViewContainerRef } from '@angular/core';
+import { Component,ViewChild, ComponentRef, Injector, ViewContainerRef, Input, SimpleChanges, EventEmitter, Output } from '@angular/core';
 import { StepRendererComponent } from '../step-renderer/step-renderer-component';
 import { StepSelectorComponent } from '../step-selector/step-selector.component';
 import { SharedModule } from '../../shared/shared.module';
@@ -20,7 +20,8 @@ import { NavComponent } from "../nav/nav.component";
 export class DesignerComponent {
   @ViewChild('drawflow') wrapper:any = null;
   editor:Drawflow|null = null;
-  package: DrawFlowPackageModel|null = null;
+  @Input() package: DrawFlowPackageModel|null = null;
+  @Output() close: EventEmitter<any> = new EventEmitter();
 
   components:Array<StepEntity> = [];
   private stepRenderer!: ComponentRef<StepRendererComponent>;
@@ -38,6 +39,13 @@ export class DesignerComponent {
   ngAfterViewInit(){
     this.startEditor();
   }
+  ngOnChanges(changes: SimpleChanges) {
+    const value = changes['package'].currentValue;
+    if(value && !changes['package'].previousValue){
+      this.setEditorData();
+    }
+  }
+
   startEditor(){
     this.editor = new Drawflow(this.wrapper.nativeElement);
     this.editor.start();
@@ -74,7 +82,26 @@ export class DesignerComponent {
     }
 
     this.package = await this.packageService.import(event);
-    this.editor.import(DrawFlowPackageConverter.toNativeModel(this.package));
+    this.setEditorData();
+  }
+  setEditorData(){
+    if(this.package && this.editor){
+      const pages = this.package.drawflow;
+      Object.keys(this.package.drawflow).forEach(pageKey=>{
+        const page =pages[pageKey]; 
+        if(page.data){
+          Object.keys(page.data).forEach(key=>{
+            const step = page.data[key];
+            const html = page.data[key].html;
+            page.data[key].html = html ? html : this.stepRenderer.instance.renderComponent(step);
+          })
+        }
+      })
+
+      const value = DrawFlowPackageConverter.toNativeModel(this.package);
+      
+      this.editor.import(value);
+    }
   }
   onExport(){
     if(!this.editor){
@@ -92,5 +119,9 @@ export class DesignerComponent {
     if(result["_id"]){
       console.log(result["_id"]);
     }
+  }
+  onClose(){
+    sessionStorage.removeItem("packageId");
+    this.close.emit("close designer");
   }
 }

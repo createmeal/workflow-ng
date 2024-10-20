@@ -1,5 +1,6 @@
 <mat-toolbar class="toolbar" color="primary">
   <app-nav></app-nav>
+  <a routerLink="/designer" class="button" mat-flat-button>Create Package</a>
 </mat-toolbar>
 <div class="mat-elevation-z8">
     <table mat-table [dataSource]="dataSource">  
@@ -13,7 +14,7 @@
             <th mat-header-cell *matHeaderCellDef> Actions </th>
             <td mat-cell *matCellDef="let element">
               @for(action of element.actions; track action.name){
-                <button mat-flat-button (click)="action.onClick($event)">
+                <button mat-flat-button (click)="action.onClick($event,element.id)">
                   <mat-icon [color]="action.color">{{action.icon}}</mat-icon>
                 </button>
               }            
@@ -33,4 +34,3 @@
       aria-label="Select page">
     </mat-paginator>
   </div>
-  

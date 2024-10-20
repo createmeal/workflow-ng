@@ -3,7 +3,7 @@ import { PackageEntity } from "../entities/package.entity";
 import { PageEntity } from "../entities/page.entity";
 import { StepConnectorEntity } from "../entities/step-connector.entity";
 import { StepEntity } from "../entities/step.entity";
-import { DrawFlowInputConnectorModel, DrawFlowOutputConnectorModel, DrawFlowPackageModel, DrawFlowPageModel, DrawFlowStepModel } from "../models/drawflow-package-model";
+import { DrawFlowInputConnectionModel, DrawFlowInputConnectorModel, DrawFlowOutputConnectionModel, DrawFlowOutputConnectorModel, DrawFlowPackageModel, DrawFlowPageModel, DrawFlowStepModel } from "../models/drawflow-package-model";
 import { Dictionary } from "../models/dictionary";
 
 export class DrawFlowInputConnectorConverter{
@@ -27,6 +27,7 @@ export class DrawFlowStepConverter {
             name: data.name,
             description: data.description,
             variables: data.data,
+            html: data.html,
             class: data.class,
             action: data.action,
             inputsCount: 0,
@@ -39,14 +40,45 @@ export class DrawFlowStepConverter {
             updatedAt: new Date()
         }
     }
+    static toExtendedModel(data: StepEntity,index: number): DrawFlowStepModel{
+        const inputs: Dictionary<DrawFlowInputConnectorModel> = {};
+        const outputs: Dictionary<DrawFlowOutputConnectorModel> = {};
+        data.inputs.forEach((item,index)=>{
+            const connections: DrawFlowInputConnectionModel[] = item.connections.map(item=>({input: item.connectorId,node: item.stepId}));
+            inputs[`input_${index}`] = {
+                connections: connections
+            };
+        })
+        data.outputs.forEach((item,index)=>{
+            const connections: DrawFlowOutputConnectionModel[] = item.connections.map(item=>({output: item.connectorId,node: item.stepId}));
+            outputs[`output_${index}`] = {
+                connections: connections
+            };
+        })
+        return {
+            _id: data.id,
+            id: index,
+            name: data.name,
+            description: data.description ?? "",
+            data: data.variables ?? {},
+            action: data.action ?? "",
+            class: data.class ?? data.name,
+            html: data.html ?? "",
+            inputs: inputs,
+            outputs: outputs,
+            pos_x: data.positionX,
+            pos_y: data.positionY,
+            typenode: "false"
+        }        
+    }
     static toNativeStepModel(data: DrawFlowStepModel): any{
         return {
             "id": data.id,
             "name": data.name,
-            "data": data.data,
-            "class": data.class,
-            "html": data.html,
-            "typenode": data.typenode,
+            "data": data.data ?? {},
+            "class": data.class ?? data.name,
+            "html": data.html ?? "",
+            "typenode": data.typenode ?? false,
             "inputs": data.inputs,
             "outputs": data.outputs,
             "pos_x": data.pos_x,
@@ -67,25 +99,54 @@ export class DrawFlowPageConverter {
             updatedAt: new Date()
         }
     }
+    static toExtendedModel(data: PageEntity): DrawFlowPageModel{
+        const steps:Dictionary<any> = {};
+        data.steps.forEach((item,index)=>{
+            steps[index] = DrawFlowStepConverter.toExtendedModel(item,index);
+        });
+        return {
+            data: steps,
+            name: data.name,
+            startStepId: data.startStepId,
+            description: data.description,
+            variables: data.variables
+        }
+    }
     static toNativePageModel(data: DrawFlowPageModel): any {
         const steps:Dictionary<any> = {};
-        Object.entries(data).forEach((valueStep)=>steps[valueStep[0]] = DrawFlowStepConverter.toNativeStepModel(valueStep[1]));
+        if("data" in data){
+            Object.entries(data.data).forEach((valueStep)=>steps[valueStep[0]] = DrawFlowStepConverter.toNativeStepModel(valueStep[1]));
+        }else {
+            Object.entries(data).forEach((valueStep: any)=>steps[valueStep[0]] = DrawFlowStepConverter.toNativeStepModel(valueStep[1]));
+        }
         return {
             data: steps
         }
     }
 }
 export class DrawFlowPackageConverter{
-    static toExtendedModel(data: DrawflowExport, defaultData: DrawFlowPackageModel | null=null): DrawFlowPackageModel{
+    static toExtendedModel(data: DrawflowExport | PackageEntity, defaultData: DrawFlowPackageModel | null=null): DrawFlowPackageModel{
         const pages: Dictionary<DrawFlowPageModel> = {};
-        Object.entries(data.drawflow).forEach(valuePage=>pages[valuePage[0]] = JSON.parse(JSON.stringify(valuePage[1].data)));
+        if("drawflow" in data){
+            Object.entries(data.drawflow).forEach(valuePage=>pages[valuePage[0]] = JSON.parse(JSON.stringify(valuePage[1].data)));
+            return {
+                id: defaultData?.id ?? "",
+                name: defaultData?.name ?? "",
+                description: defaultData?.description ?? "",
+                drawflow: pages,
+                startPageName: Object.keys(data.drawflow)[0],
+                variables: defaultData?.variables ?? {}
+            }
+        }
+        data.pages.forEach(valuePage=>pages[valuePage.name] = DrawFlowPageConverter.toExtendedModel(valuePage));
+
         return {
-            id: defaultData?.id ?? "",
-            name: defaultData?.name ?? "",
-            description: defaultData?.description ?? "",
+            id: data.id,
+            name: data.name,
+            description: data.description,
             drawflow: pages,
-            startPageName: Object.keys(data.drawflow)[0],
-            variables: defaultData?.variables ?? {}
+            startPageName: data.startPageName,
+            variables: data.variables
         }
     }
     static toNativeModel(data: DrawFlowPackageModel): DrawflowExport{
@@ -108,8 +169,10 @@ export class DrawFlowPackageConverter{
         }
         const pages: PageEntity[] = Object.entries(data.drawflow).map((value)=>DrawFlowPageConverter.toPageEntity(value[1]));
         return {
+            id: data.id,
             name: data.name,
             description: data.description,
+            variables: data.variables,
             pages: pages,
             startPageName: data.startPageName,
             createdAt: new Date(),
