@@ -1,0 +1,10 @@
+<mat-selection-list role="list" class="pages-list" [multiple]="false" hideSingleSelectionIndicator #pagesList>
+  @for(item of items; track item; let i = $index){
+    <mat-list-option 
+      role="listitem" 
+      class="page-list-item" 
+      (click)="onChange(item)" [selected]="i===0">
+      {{item}}
+    </mat-list-option>   
+  }
+</mat-selection-list>

@@ -57,6 +57,16 @@
   }
   
   .drawflow .drawflow-node:hover {
+    cursor: grab;
+    background: var(--dfNodeHoverBackgroundColor);
+    color: var(--dfNodeHoverTextColor);
+    border: var(--dfNodeHoverBorderSize)  solid var(--dfNodeHoverBorderColor);
+    border-radius: var(--dfNodeHoverBorderRadius);
+    -webkit-box-shadow: var(--dfNodeHoverBoxShadowHL) var(--dfNodeHoverBoxShadowVL) var(--dfNodeHoverBoxShadowBR) var(--dfNodeHoverBoxShadowS) var(--dfNodeHoverBoxShadowColor);
+    box-shadow:  var(--dfNodeHoverBoxShadowHL) var(--dfNodeHoverBoxShadowVL) var(--dfNodeHoverBoxShadowBR) var(--dfNodeHoverBoxShadowS) var(--dfNodeHoverBoxShadowColor);
+  }
+  .drawflow .drawflow-node:active {
+    cursor: grabbing;
     background: var(--dfNodeHoverBackgroundColor);
     color: var(--dfNodeHoverTextColor);
     border: var(--dfNodeHoverBorderSize)  solid var(--dfNodeHoverBorderColor);

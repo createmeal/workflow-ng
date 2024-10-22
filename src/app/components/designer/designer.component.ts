@@ -10,10 +10,13 @@ import { DrawFlowPackageModel } from '../../models/drawflow-package-model';
 import { DrawFlowPackageConverter } from '../../converters/drawflow-package-converter';
 import { StepEntity } from '../../entities/step.entity';
 import { NavComponent } from "../nav/nav.component";
+import { PageSelectorComponent } from "../page-selector/page-selector.component";
+import {MatExpansionModule} from '@angular/material/expansion';
+
 @Component({
   selector: 'app-designer',
   standalone: true,
-  imports: [SharedModule, StepSelectorComponent, NavComponent],
+  imports: [SharedModule, MatExpansionModule,StepSelectorComponent, NavComponent, PageSelectorComponent],
   templateUrl: './designer.component.html',
   styleUrl: './designer.component.scss'
 })
@@ -22,7 +25,8 @@ export class DesignerComponent {
   editor:Drawflow|null = null;
   @Input() package: DrawFlowPackageModel|null = null;
   @Output() close: EventEmitter<any> = new EventEmitter();
-
+   
+  pages:Array<string> = ["Home"];
   components:Array<StepEntity> = [];
   private stepRenderer!: ComponentRef<StepRendererComponent>;
   constructor(private viewContainerRef: ViewContainerRef, 
@@ -76,6 +80,9 @@ export class DesignerComponent {
     const html = this.stepRenderer.instance.renderComponent(stepEntity);
     this.editor.addNode(stepEntity.name, stepEntity.inputsCount, stepEntity.outputsCount, posX, posY, `${stepEntity.name} ${stepEntity.class}`, stepEntity.variables, html,false );
   }
+  onPageChange(item: any){
+    this.editor?.changeModule(item);
+  }
   async onImport(event: Event){
     if(!this.editor){
       throw Error("The Editor is null");
@@ -97,9 +104,10 @@ export class DesignerComponent {
           })
         }
       })
-
-      const value = DrawFlowPackageConverter.toNativeModel(this.package);
       
+      const value = DrawFlowPackageConverter.toNativeModel(this.package);
+      this.pages = Object.keys(value.drawflow);
+
       this.editor.import(value);
     }
   }
