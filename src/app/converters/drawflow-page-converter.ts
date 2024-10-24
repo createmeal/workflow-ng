@@ -6,7 +6,7 @@ import { DrawFlowStepConverter } from "./drawflow-step-converter";
 
 export class DrawFlowPageConverter {
     static toPageEntity(data: DrawFlowPageModel): PageEntity{
-        const steps: StepEntity[] = Object.entries(data.data).map((valueStep)=>DrawFlowStepConverter.toStepEntity(valueStep[1]));
+        const steps: StepEntity[] = Object.entries(data.data??data).map((valueStep)=>DrawFlowStepConverter.toStepEntity(valueStep[1]));
         return {
             name: data.name,
             description: data.description,
@@ -20,7 +20,7 @@ export class DrawFlowPageConverter {
     static toExtendedModel(data: PageEntity): DrawFlowPageModel{
         const steps:Dictionary<any> = {};
         data.steps.forEach((item,index)=>{
-            steps[index] = DrawFlowStepConverter.toExtendedModel(item,index);
+            steps[index+1] = DrawFlowStepConverter.toExtendedModel(item,index);
         });
         return {
             data: steps,

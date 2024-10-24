@@ -12,7 +12,7 @@
 <mat-drawer-container class="designer-container">
     <mat-drawer mode="side" opened>
         <div class="content">
-            <mat-accordion class="sidebar-accordion" multi>
+            <mat-accordion class="pages-accordion" multi>
                 <mat-expansion-panel>
                   <mat-expansion-panel-header>
                     <mat-panel-title>Pages</mat-panel-title>
@@ -21,20 +21,31 @@
                         <app-page-selector [items]="pages" (change)="onPageChange($event)"></app-page-selector>
                     </div>
                 </mat-expansion-panel>
+              </mat-accordion>
+              <mat-accordion class="collections-accordion" multi>
                 <mat-expansion-panel>
                   <mat-expansion-panel-header>
-                    <mat-panel-title>Steps collection</mat-panel-title>
+                    <mat-panel-title>General</mat-panel-title>
                   </mat-expansion-panel-header>
                     <div class="collections-container">
                         <app-step-selector [items]="components"></app-step-selector>
                     </div>
                 </mat-expansion-panel>
               </mat-accordion>
-              
-            
+              <mat-accordion class="collections-accordion" multi>
+                <mat-expansion-panel>
+                  <mat-expansion-panel-header>
+                    <mat-panel-title>HTTP</mat-panel-title>
+                  </mat-expansion-panel-header>
+                    <div class="collections-container">
+                        <app-step-selector [items]="components"></app-step-selector>
+                    </div>
+                </mat-expansion-panel>
+              </mat-accordion>
         </div>
     </mat-drawer>
     <mat-drawer-content>
+        <app-pages-toolbar [tabs]="pages"></app-pages-toolbar>
         <div #drawflow id="drawflow" (drop)="onDrop($event)" (dragover)="allowDrop($event)"></div>
     </mat-drawer-content>
 </mat-drawer-container>

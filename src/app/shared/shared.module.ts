@@ -6,6 +6,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableModule } from '@angular/material/table';
 import { MatIconModule } from "@angular/material/icon";
+import { MatDividerModule } from '@angular/material/divider';
+import { MatTabsModule } from "@angular/material/tabs";
 
 const modules = [
   CommonModule,
@@ -14,7 +16,9 @@ const modules = [
   MatButtonModule,
   MatPaginatorModule,
   MatTableModule,
-  MatIconModule
+  MatIconModule,
+  MatDividerModule,
+  MatTabsModule
 ]
 
 @NgModule({

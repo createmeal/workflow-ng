@@ -48,7 +48,11 @@ export class DrawFlowPackageConverter{
         if(!("name" in data)){
             data = this.toExtendedModel(data);
         }
-        const pages: PageEntity[] = Object.entries(data.drawflow).map((value)=>DrawFlowPageConverter.toPageEntity(value[1]));
+        const pages: PageEntity[] = Object.entries(data.drawflow).map((value)=>{
+            const page = DrawFlowPageConverter.toPageEntity(value[1]);
+            page.name = value[0];
+            return page;
+        });
         return {
             id: data.id,
             name: data.name,

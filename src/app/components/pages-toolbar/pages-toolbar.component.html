@@ -1,0 +1,12 @@
+<div class="pages-toolbar">
+    <mat-tab-group>
+        @for (tab of tabs; track tab) {
+            <mat-tab [label]="tab" (dblclick)="onDbClick($event)">
+                <ng-content></ng-content>
+            </mat-tab>
+        }
+    </mat-tab-group>    
+    <button class="button">
+        <mat-icon aria-hidden="false" aria-label="add icon" fontIcon="add" color="primary"></mat-icon>
+    </button>  
+</div>

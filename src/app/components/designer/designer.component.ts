@@ -12,11 +12,13 @@ import { StepEntity } from '../../entities/step.entity';
 import { NavComponent } from "../nav/nav.component";
 import { PageSelectorComponent } from "../page-selector/page-selector.component";
 import {MatExpansionModule} from '@angular/material/expansion';
+import { v4 as uuidv4} from "uuid";
+import { PagesToolbarComponent } from "../pages-toolbar/pages-toolbar.component";
 
 @Component({
   selector: 'app-designer',
   standalone: true,
-  imports: [SharedModule, MatExpansionModule,StepSelectorComponent, NavComponent, PageSelectorComponent],
+  imports: [SharedModule, MatExpansionModule, StepSelectorComponent, NavComponent, PageSelectorComponent, PagesToolbarComponent],
   templateUrl: './designer.component.html',
   styleUrl: './designer.component.scss'
 })
@@ -54,7 +56,7 @@ export class DesignerComponent {
     this.editor = new Drawflow(this.wrapper.nativeElement);
     this.editor.start();
     this.package = {
-      id: "",
+      id: uuidv4(),
       name: "",
       description: "",
       drawflow: {},
@@ -76,9 +78,27 @@ export class DesignerComponent {
     if(!this.editor){
       throw Error("The Editor is null");
     }
-    
-    const html = this.stepRenderer.instance.renderComponent(stepEntity);
-    this.editor.addNode(stepEntity.name, stepEntity.inputsCount, stepEntity.outputsCount, posX, posY, `${stepEntity.name} ${stepEntity.class}`, stepEntity.variables, html,false );
+    this.editor.addNode(
+      stepEntity.name, 
+      stepEntity.inputsCount, 
+      stepEntity.outputsCount, 
+      this.getPosX(posX), 
+      this.getPosY(posY), 
+      `${stepEntity.name} ${stepEntity.class??''}`.trim(), 
+      stepEntity.variables, 
+      this.stepRenderer.instance.renderComponent(stepEntity),
+      false
+    );
+  }
+  getPosX(posX: number): number{
+    const {precanvas, zoom} = this.editor!;
+    const baseCalc = precanvas.clientWidth / (precanvas.clientWidth * zoom);
+    return posX * (baseCalc) - (precanvas.getBoundingClientRect().x * (baseCalc));
+  }
+  getPosY(posY: number): number {
+    const {precanvas, zoom} = this.editor!;
+    const baseCalc = precanvas.clientHeight / (precanvas.clientHeight * zoom); 
+    return posY * (baseCalc) - (precanvas.getBoundingClientRect().y * (baseCalc));
   }
   onPageChange(item: any){
     this.editor?.changeModule(item);
@@ -93,6 +113,7 @@ export class DesignerComponent {
   }
   setEditorData(){
     if(this.package && this.editor){
+      console.log(this.package)
       const pages = this.package.drawflow;
       Object.keys(this.package.drawflow).forEach(pageKey=>{
         const page =pages[pageKey]; 
@@ -123,10 +144,8 @@ export class DesignerComponent {
       throw Error("The Editor is null");
     }
     this.package = DrawFlowPackageConverter.toExtendedModel(this.editor.export(),this.package);
-    const result = await this.packageService.save(this.package);
-    if(result["_id"]){
-      console.log(result["_id"]);
-    }
+    const packageEntity = await this.packageService.save(this.package);
+    this.package = DrawFlowPackageConverter.toExtendedModel(packageEntity);
   }
   onClose(){
     sessionStorage.removeItem("packageId");

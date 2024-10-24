@@ -51,7 +51,7 @@ export class PackageService {
         }
         throw Error("File not found");
     }
-    async save(data: DrawFlowPackageModel) {
+    async save(data: DrawFlowPackageModel): Promise<PackageEntity> {
         const myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
         const method = data.id ? "PUT" : "POST";
