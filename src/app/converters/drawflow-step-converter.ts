@@ -37,17 +37,34 @@ export class DrawFlowStepConverter {
             updatedAt: new Date()
         }
     }
-    static toExtendedModel(data: StepEntity,index: number): DrawFlowStepModel{
+    static toExtendedModel(data: StepEntity|any,index: number): DrawFlowStepModel{
+        if(!("positionX" in data)){
+            return {
+                _id: data.id,
+                id: index,
+                name: data.name,
+                description: data.description ?? "",
+                data: data.variables ?? {},
+                action: data.action ?? "",
+                class: data.class ?? data.name,
+                html: data.html ?? "",
+                inputs: data.inputs,
+                outputs: data.outputs,
+                pos_x: data.positionX,
+                pos_y: data.positionY,
+                typenode: "false"
+            }
+        }
         const inputs: Dictionary<DrawFlowInputConnectorModel> = {};
         const outputs: Dictionary<DrawFlowOutputConnectorModel> = {};
-        data.inputs.forEach((item,index)=>{
-            const connections: DrawFlowInputConnectionModel[] = item.connections.map(item=>({input: item.connectorId,node: item.stepId}));
+        data.inputs.forEach((item:any,index:number)=>{
+            const connections: DrawFlowInputConnectionModel[] = item.connections.map((item:any)=>({input: item.connectorId,node: item.stepId}));
             inputs[`input_${index}`] = {
                 connections: connections
             };
         })
-        data.outputs.forEach((item,index)=>{
-            const connections: DrawFlowOutputConnectionModel[] = item.connections.map(item=>({output: item.connectorId,node: item.stepId}));
+        data.outputs.forEach((item:any,index:number)=>{
+            const connections: DrawFlowOutputConnectionModel[] = item.connections.map((item:any)=>({output: item.connectorId,node: item.stepId}));
             outputs[`output_${index}`] = {
                 connections: connections
             };

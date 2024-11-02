@@ -1,6 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { StepsPageComponent } from './steps-page.component';
+import { appConfig } from '../../app.config';
+import { provideRouter } from '@angular/router';
+import { routes } from '../../app.routes';
 
 describe('StepsPageComponent', () => {
   let component: StepsPageComponent;
@@ -8,7 +11,8 @@ describe('StepsPageComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [StepsPageComponent]
+      imports: [StepsPageComponent],
+      providers: [...appConfig.providers,[provideRouter(routes)]]
     })
     .compileComponents();
     

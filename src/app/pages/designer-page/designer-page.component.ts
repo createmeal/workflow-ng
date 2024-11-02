@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-designer-page',
   standalone: true,
-  imports: [DesignerComponent],
+  imports: [DesignerComponent ],
   templateUrl: './designer-page.component.html',
   styleUrl: './designer-page.component.scss'
 })

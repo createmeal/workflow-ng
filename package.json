@@ -7,8 +7,9 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "jest --coverage"
   },
+  "type": "module",
   "private": true,
   "dependencies": {
     "@angular/animations": "^17.0.0",
@@ -32,14 +33,26 @@
     "@angular-devkit/build-angular": "^17.0.8",
     "@angular/cli": "^17.0.8",
     "@angular/compiler-cli": "^17.0.0",
+    "@babel/preset-typescript": "^7.26.0",
     "@types/drawflow": "^0.0.11",
-    "@types/jasmine": "~5.1.0",
-    "jasmine-core": "~5.1.0",
-    "karma": "~6.4.0",
-    "karma-chrome-launcher": "~3.2.0",
-    "karma-coverage": "~2.2.0",
-    "karma-jasmine": "~5.1.0",
-    "karma-jasmine-html-reporter": "~2.1.0",
+    "@types/jest": "^29.5.14",
+    "jest": "^29.7.0",
+    "jest-preset-angular": "^14.2.4",
     "typescript": "~5.2.2"
+  },
+  "jest": {
+    "preset": "jest-preset-angular",
+    "setupFilesAfterEnv": [
+      "<rootDir>/src/setup.jest.ts"
+    ],
+    "testPathIgnorePatterns": [
+      "<rootDir>/node_modules/",
+      "<rootDir>/dist/"
+    ],
+    "transform": {
+      "\\.html$": ["ts-jest",{
+        "tsconfig": "<rootDir>/tsconfig.spec.json"
+      }]
+    }
   }
 }

@@ -1,9 +1,14 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { PackageEntityDataSource } from './packages-page.component';
 import { PackagesPageComponent } from './packages-page.component';
+import { appConfig } from '../../app.config';
+import { provideRouter } from '@angular/router';
+import { routes } from '../../app.routes';
 
 const ELEMENT_DATA: PackageEntityDataSource[] = [
   {
+    id: "asdf",
+    variables: {},
     name: "package name",
     description: "package description",
     pages: [],
@@ -32,7 +37,8 @@ describe('PackagesPageComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [PackagesPageComponent]
+      imports: [PackagesPageComponent],
+      providers: [...appConfig.providers,[provideRouter(routes)]]
     })
     .compileComponents();
     
