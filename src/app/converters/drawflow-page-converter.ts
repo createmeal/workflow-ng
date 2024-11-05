@@ -1,7 +1,7 @@
-import { PageEntity } from "../entities/page.entity";
-import { StepEntity } from "../entities/step.entity";
-import { Dictionary } from "../models/dictionary";
-import { DrawFlowPageModel } from "../models/drawflow-package-model";
+import { PageEntity } from "@app/entities/page.entity";
+import { StepEntity } from "@app/entities/step.entity";
+import { Dictionary } from "@app/models/dictionary";
+import { DrawFlowPageModel } from "@app/models/drawflow-package-model";
 import { DrawFlowStepConverter } from "./drawflow-step-converter";
 
 export class DrawFlowPageConverter {

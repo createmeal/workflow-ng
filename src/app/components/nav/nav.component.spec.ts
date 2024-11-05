@@ -1,9 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { NavComponent } from './nav.component';
-import { appConfig } from '../../app.config';
+import { appConfig } from '@app/app.config';
 import { provideRouter } from '@angular/router';
-import { routes } from '../../app.routes';
+import { routes } from '@app/app.routes';
 
 describe('NavComponent', () => {
   let component: NavComponent;

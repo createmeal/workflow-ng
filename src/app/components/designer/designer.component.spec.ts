@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { DesignerComponent } from './designer.component';
-import { appConfig } from '../../app.config';
+import { appConfig } from '@app/app.config';
 
 describe('DesignerComponent', () => {
   let component: DesignerComponent;

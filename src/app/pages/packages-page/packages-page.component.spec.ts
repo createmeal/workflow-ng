@@ -1,9 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { PackageEntityDataSource } from './packages-page.component';
 import { PackagesPageComponent } from './packages-page.component';
-import { appConfig } from '../../app.config';
+import { appConfig } from '@app/app.config';
 import { provideRouter } from '@angular/router';
-import { routes } from '../../app.routes';
+import { routes } from '@app/app.routes';
 
 const ELEMENT_DATA: PackageEntityDataSource[] = [
   {

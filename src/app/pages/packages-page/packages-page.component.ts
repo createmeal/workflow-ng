@@ -1,14 +1,14 @@
 import { Component, inject, ViewChild } from '@angular/core';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
-import { PackageEntity } from '../../entities/package.entity';
-import { SharedModule } from '../../shared/shared.module';
-import { NavComponent } from '../../components/nav/nav.component';
-import { PackageService } from '../../services/package-service';
-import { EntityColumn, ActionColumn } from '../../models/entity-table';
-import { PlayPackageDialogComponent } from "../../components/play-package-dialog/play-package-dialog.component";
+import { PackageEntity } from '@app/entities/package.entity';
+import { SharedModule } from '@app/shared/shared.module';
+import { NavComponent } from '@app/components/nav/nav.component';
+import { PackageService } from '@app/services/package-service/package-service';
+import { EntityColumn, ActionColumn } from '@app/models/entity-table';
+import { PlayPackageDialogComponent } from "@app/components/play-package-dialog/play-package-dialog.component";
 import { MatDialog } from '@angular/material/dialog';
-import { ExecutionService } from '../../services/execution-service';
+import { ExecutionService } from '@app/services/execution-service/execution-service';
 import { Router, RouterOutlet,RouterLink } from '@angular/router';
 @Component({
   selector: 'app-packages',

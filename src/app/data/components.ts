@@ -1,4 +1,4 @@
-import { ComponentInfo } from "../types/component-info";
+import { ComponentInfo } from "@app/types/component-info";
 
 export let components:Array<ComponentInfo> = [{
     id:0,

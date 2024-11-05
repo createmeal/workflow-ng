@@ -1,8 +1,8 @@
 import { DrawflowExport } from "drawflow";
-import { PackageEntity } from "../entities/package.entity";
-import { PageEntity } from "../entities/page.entity";
-import { DrawFlowPackageModel, DrawFlowPageModel } from "../models/drawflow-package-model";
-import { Dictionary } from "../models/dictionary";
+import { PackageEntity } from "@app/entities/package.entity";
+import { PageEntity } from "@app/entities/page.entity";
+import { DrawFlowPackageModel, DrawFlowPageModel } from "@app/models/drawflow-package-model";
+import { Dictionary } from "@app/models/dictionary";
 import { DrawFlowPageConverter } from "./drawflow-page-converter";
 
 export class DrawFlowPackageConverter{

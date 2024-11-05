@@ -1,7 +1,7 @@
-import { StepConnectorEntity } from "../entities/step-connector.entity";
-import { StepEntity } from "../entities/step.entity";
-import { Dictionary } from "../models/dictionary";
-import { DrawFlowInputConnectorModel, DrawFlowOutputConnectorModel, DrawFlowStepModel, DrawFlowInputConnectionModel, DrawFlowOutputConnectionModel } from "../models/drawflow-package-model";
+import { StepConnectorEntity } from "@app/entities/step-connector.entity";
+import { StepEntity } from "@app/entities/step.entity";
+import { Dictionary } from "@app/models/dictionary";
+import { DrawFlowInputConnectorModel, DrawFlowOutputConnectorModel, DrawFlowStepModel, DrawFlowInputConnectionModel, DrawFlowOutputConnectionModel } from "@app/models/drawflow-package-model";
 
 export class DrawFlowInputConnectorConverter{
     static toStepConnectorEntity(data: DrawFlowInputConnectorModel): StepConnectorEntity{
@@ -44,14 +44,14 @@ export class DrawFlowStepConverter {
                 id: index,
                 name: data.name,
                 description: data.description ?? "",
-                data: data.variables ?? {},
+                data: data.data ?? {},
                 action: data.action ?? "",
                 class: data.class ?? data.name,
                 html: data.html ?? "",
                 inputs: data.inputs,
                 outputs: data.outputs,
-                pos_x: data.positionX,
-                pos_y: data.positionY,
+                pos_x: data.pos_x,
+                pos_y: data.pos_y,
                 typenode: "false"
             }
         }

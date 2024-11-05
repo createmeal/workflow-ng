@@ -1,7 +1,7 @@
 import { Component, ViewChild, ViewContainerRef, ComponentRef, ChangeDetectorRef, Injector } from '@angular/core';
-import { StepComponent } from '../step/step.component';
-import { StepEntity } from '../../entities/step.entity';
-import { DrawFlowStepModel } from '../../models/drawflow-package-model';
+import { StepComponent } from '@app/components/step/step.component';
+import { StepEntity } from '@app/entities/step.entity';
+import { DrawFlowStepModel } from '@app/models/drawflow-package-model';
 
 @Component({
   selector: 'app-dynamic-container',

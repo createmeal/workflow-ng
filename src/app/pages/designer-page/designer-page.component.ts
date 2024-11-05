@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import { DesignerComponent } from '../../components/designer/designer.component';
-import { PackageService } from '../../services/package-service';
-import { DrawFlowPackageModel } from '../../models/drawflow-package-model';
-import { DrawFlowPackageConverter } from '../../converters/drawflow-package-converter';
+import { DesignerComponent } from '@app/components/designer/designer.component';
+import { PackageService } from '@app/services/package-service/package-service';
+import { DrawFlowPackageModel } from '@app/models/drawflow-package-model';
+import { DrawFlowPackageConverter } from '@app/converters/drawflow-package-converter';
 import { Router } from '@angular/router';
 
 @Component({

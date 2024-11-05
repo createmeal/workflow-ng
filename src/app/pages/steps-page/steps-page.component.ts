@@ -1,11 +1,11 @@
 import { Component, ViewChild } from '@angular/core';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
-import { SharedModule } from '../../shared/shared.module';
-import { NavComponent } from '../../components/nav/nav.component';
-import { StepService } from '../../services/step-service';
-import { StepEntity } from '../../entities/step.entity';
-import { EntityColumn } from '../../models/entity-table';
+import { SharedModule } from '@app/shared/shared.module';
+import { NavComponent } from '@app/components/nav/nav.component';
+import { StepService } from '@app/services/step-service/step-service';
+import { StepEntity } from '@app/entities/step.entity';
+import { EntityColumn } from '@app/models/entity-table';
 
 @Component({
   selector: 'app-steps-page',

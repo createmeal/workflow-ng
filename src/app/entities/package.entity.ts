@@ -1,4 +1,4 @@
-import { Dictionary } from "../models/dictionary"
+import { Dictionary } from "@app/models/dictionary"
 import { PageEntity } from "./page.entity"
 export interface PackageEntity {
     id: string,

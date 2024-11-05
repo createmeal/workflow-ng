@@ -1,5 +1,5 @@
 import { Component, inject, model} from '@angular/core';
-import { SharedModule } from '../../shared/shared.module';
+import { SharedModule } from '@app/shared/shared.module';
 import { MatDialogActions, MatDialogClose, MatDialogTitle, MatDialogContent, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({

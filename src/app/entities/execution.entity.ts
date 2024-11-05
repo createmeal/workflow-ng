@@ -1,4 +1,4 @@
-import { Dictionary } from "../models/dictionary"
+import { Dictionary } from "@app/models/dictionary"
 import { PackageEntity } from "./package.entity"
 export interface ExecutionEntity {
     package: PackageEntity,

@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DesignerPageComponent } from './designer-page.component';
-import { appConfig } from '../../app.config';
+import { appConfig } from '@app/app.config';
 
 describe('DesignerPageComponent', () => {
   let component: DesignerPageComponent;

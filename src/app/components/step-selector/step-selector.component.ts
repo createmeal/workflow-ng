@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { SharedModule } from '../../shared/shared.module';
-import { StepEntity } from '../../entities/step.entity';
+import { SharedModule } from '@app/shared/shared.module';
+import { StepEntity } from '@app/entities/step.entity';
 
 @Component({
   selector: 'app-step-selector',

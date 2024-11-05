@@ -1,19 +1,19 @@
 import { Component,ViewChild, ComponentRef, Injector, ViewContainerRef, Input, SimpleChanges, EventEmitter, Output } from '@angular/core';
-import { StepRendererComponent } from '../step-renderer/step-renderer-component';
-import { StepSelectorComponent } from '../step-selector/step-selector.component';
-import { SharedModule } from '../../shared/shared.module';
+import { StepRendererComponent } from '@app/components/step-renderer/step-renderer-component';
+import { StepSelectorComponent } from '@app/components/step-selector/step-selector.component';
+import { SharedModule } from '@app/shared/shared.module';
 
 import Drawflow from 'drawflow';
-import { StepService } from '../../services/step-service';
-import { PackageService } from '../../services/package-service';
-import { DrawFlowPackageModel } from '../../models/drawflow-package-model';
-import { DrawFlowPackageConverter } from '../../converters/drawflow-package-converter';
-import { StepEntity } from '../../entities/step.entity';
-import { NavComponent } from "../nav/nav.component";
-import { PageSelectorComponent } from "../page-selector/page-selector.component";
+import { StepService } from '@app/services/step-service/step-service';
+import { PackageService } from '@app/services/package-service/package-service';
+import { DrawFlowPackageModel } from '@app/models/drawflow-package-model';
+import { DrawFlowPackageConverter } from '@app/converters/drawflow-package-converter';
+import { StepEntity } from '@app/entities/step.entity';
+import { NavComponent } from "@app/components/nav/nav.component";
+import { PageSelectorComponent } from "@app/components/page-selector/page-selector.component";
 import {MatExpansionModule} from '@angular/material/expansion';
 import { v4 as uuidv4} from "uuid";
-import { PagesToolbarComponent } from "../pages-toolbar/pages-toolbar.component";
+import { PagesToolbarComponent } from "@app/components/pages-toolbar/pages-toolbar.component";
 
 @Component({
   selector: 'app-designer',
@@ -144,7 +144,7 @@ export class DesignerComponent {
       throw Error("The Editor is null");
     }
     this.package = DrawFlowPackageConverter.toExtendedModel(this.editor.export(),this.package);
-    const packageEntity = await this.packageService.save(this.package);
+    const packageEntity = await this.packageService.save(DrawFlowPackageConverter.toPackageEntity(this.package));
     this.package = DrawFlowPackageConverter.toExtendedModel(packageEntity);
   }
   onClose(){

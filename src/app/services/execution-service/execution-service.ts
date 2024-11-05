@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
-import { ExecutionDefaultStartEntity, ExecutionEntity, ExecutionStartEntity } from "../entities/execution.entity";
-
+import { ExecutionDefaultStartEntity, ExecutionEntity, ExecutionStartEntity } from "@app/entities/execution.entity";
+import { config } from "@app/config";
 @Injectable({ providedIn: 'root' })
 export class ExecutionService {
     async list(page: number=1, pageSize: number=50): Promise<Array<ExecutionEntity>>{
@@ -9,7 +9,7 @@ export class ExecutionService {
             redirect: "follow"
           };
           
-          const response = await fetch(`http://localhost:3000/api/executions?page=${page}&pageSize=${pageSize}`, requestOptions);
+          const response = await fetch(`${config.api.baseUrl}/api/executions?page=${page}&pageSize=${pageSize}`, requestOptions);
           return await response.json();
     }
     async start(data: ExecutionStartEntity|ExecutionDefaultStartEntity) {
@@ -22,7 +22,7 @@ export class ExecutionService {
             body: JSON.stringify(data),
             redirect: "follow"
         };
-        const response = await fetch('http://localhost:3000/api/executions', requestOptions);
+        const response = await fetch(`${config.api.baseUrl}/api/executions`, requestOptions);
         return await response.json();
     }
 }
