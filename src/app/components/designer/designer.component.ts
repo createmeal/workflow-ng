@@ -27,12 +27,15 @@ export class DesignerComponent {
   editor:Drawflow|null = null;
   @Input() package: DrawFlowPackageModel|null = null;
   @Output() close: EventEmitter<any> = new EventEmitter();
+  @Output() save: EventEmitter<DrawFlowPackageModel> = new EventEmitter();
+  @Output() export: EventEmitter<DrawFlowPackageModel> = new EventEmitter();
   
   pages:Array<string> = ["Home"];
   generalSteps:Array<StepEntity> = [];
   httpSteps:Array<StepEntity> = [];
   stepProperties: any = {
     name: "",
+    step: {},
     isVisible: false,
     variables: []
   }
@@ -52,16 +55,6 @@ export class DesignerComponent {
   }
 
   ngAfterViewInit(){
-    this.startEditor();
-  }
-  ngOnChanges(changes: SimpleChanges) {
-    const value = changes['package'].currentValue;
-    if(value && !changes['package'].previousValue){
-      this.setEditorData();
-    }
-  }
-
-  startEditor(){
     this.editor = new Drawflow(this.wrapper.nativeElement);
     this.editor.start();
     this.package = {
@@ -72,6 +65,12 @@ export class DesignerComponent {
       startPageName: "",
       variables: {}
     };
+  }
+  ngOnChanges(changes: SimpleChanges) {
+    const value = changes['package'].currentValue;
+    if(value && !changes['package'].previousValue){
+      this.setEditorData();
+    }
   }
   onDrop(event:any){
     this.addNodeToDrawFlow(event.dataTransfer.getData("id"), event.clientX, event.clientY);
@@ -98,14 +97,26 @@ export class DesignerComponent {
       this.stepRenderer.instance.renderComponent(stepEntity),
       false
     );
-    document.querySelectorAll(".step-edit-icon").forEach(icon=>icon.addEventListener("click",(event:Event)=>this.openStepProperties((event?.target as HTMLElement).getAttribute('step-name'))));
+    this.setStepsEventListener();
   }
+  setStepsEventListener(){
+    const onStepEdit = (event:Event)=>{
+      const stepName = (event?.target as HTMLElement).getAttribute('step-name');
+      this.openStepProperties(stepName);
+    }
+    document.querySelectorAll(".step-edit-icon").forEach(icon=>{
+      icon.removeEventListener("click",onStepEdit);
+      icon.addEventListener("click",onStepEdit);
+    });
+  }
+
   openStepProperties(stepName: string | null){
     if(!stepName) return;
     this.stepProperties.isVisible = true;
     const match = this.httpSteps.find(step=> step.name === stepName);
     if(match){
       this.stepProperties.name = stepName;
+      this.stepProperties.step = match;
       this.stepProperties.variables = Object.keys(match.variables).map(key=>({name: key, value: match.variables[key]}));
     }
   }
@@ -157,12 +168,15 @@ export class DesignerComponent {
     }
     this.package = DrawFlowPackageConverter.toExtendedModel(this.editor.export(),this.package);
     this.packageService.export(this.package);
+    this.export.emit(this.package);
   }
   async onSave(){
     if(!this.editor){
       throw Error("The Editor is null");
     }
     this.package = DrawFlowPackageConverter.toExtendedModel(this.editor.export(),this.package);
+    this.save.emit(this.package);
+
     const packageEntity = await this.packageService.save(DrawFlowPackageConverter.toPackageEntity(this.package));
     this.package = DrawFlowPackageConverter.toExtendedModel(packageEntity);
   }

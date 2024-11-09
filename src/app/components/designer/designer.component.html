@@ -50,8 +50,12 @@
     </mat-drawer-content>
     
     <mat-drawer class="step-properties-drawer" mode="over" position="end" [opened]="stepProperties.isVisible" (closed)="stepProperties.isVisible=false">
-      <h3 class="title">{{stepProperties.name}} - Properties</h3>
+      <div class="header">
+        <h3 class="title">{{stepProperties.name}}</h3>
+        <button class="button" mat-flat-button (click)="stepProperties.isVisible=false">X</button>
+      </div>
       <mat-divider></mat-divider>
+      <h4>Properties</h4>
       <form class="form">
           @for (field of stepProperties.variables; track field.name) {
             <mat-form-field class="field" >
