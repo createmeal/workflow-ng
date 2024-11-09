@@ -28,7 +28,7 @@
                     <mat-panel-title>General</mat-panel-title>
                   </mat-expansion-panel-header>
                     <div class="collections-container">
-                        <app-step-selector [items]="components"></app-step-selector>
+                        <app-step-selector [items]="generalSteps"></app-step-selector>
                     </div>
                 </mat-expansion-panel>
               </mat-accordion>
@@ -38,7 +38,7 @@
                     <mat-panel-title>HTTP</mat-panel-title>
                   </mat-expansion-panel-header>
                     <div class="collections-container">
-                        <app-step-selector [items]="components"></app-step-selector>
+                        <app-step-selector [items]="httpSteps"></app-step-selector>
                     </div>
                 </mat-expansion-panel>
               </mat-accordion>
@@ -48,4 +48,17 @@
         <app-pages-toolbar [tabs]="pages"></app-pages-toolbar>
         <div #drawflow id="drawflow" (drop)="onDrop($event)" (dragover)="allowDrop($event)"></div>
     </mat-drawer-content>
+    
+    <mat-drawer class="step-properties-drawer" mode="over" position="end" [opened]="stepProperties.isVisible" (closed)="stepProperties.isVisible=false">
+      <h3 class="title">{{stepProperties.name}} - Properties</h3>
+      <mat-divider></mat-divider>
+      <form class="form">
+          @for (field of stepProperties.variables; track field.name) {
+            <mat-form-field class="field" >
+              <mat-label>{{field.name}}</mat-label>
+              <input matInput [placeholder]="field.name" [value]="field.value">
+            </mat-form-field> 
+          }
+      </form>
+    </mat-drawer>
 </mat-drawer-container>

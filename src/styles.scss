@@ -10,3 +10,27 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     justify-content: space-between;
   }
 
+.drawflow .drawflow-node {
+  min-height: 60px;
+  border-radius: 10px;
+}
+.step-header {
+  display: flex;
+  justify-content: space-between;
+  padding: 5px;
+  background-color: black;
+  color: white;
+  margin-top: -46px;
+  margin-left: -16px;
+  margin-right: -16px;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+
+  .step-edit-icon {
+    cursor: pointer;
+  }
+}
+
+.step-properties-drawer {
+  width: 300px !important;
+}

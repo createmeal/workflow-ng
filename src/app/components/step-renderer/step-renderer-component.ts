@@ -18,6 +18,7 @@ export class StepRendererComponent {
 
     const componentRef: ComponentRef<StepComponent> = this.container.createComponent(StepComponent, { injector: this.injector });
     componentRef.instance.title = stepEntity.name;
+    componentRef.instance.description = stepEntity.description;
 
     this.cdr.detectChanges();
     

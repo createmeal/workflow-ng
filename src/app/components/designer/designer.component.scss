@@ -40,3 +40,21 @@
  .toolbar .button {
    margin-right: 3px;
 }
+ 
+ .step-properties-drawer {
+   min-width: 400px;
+   width: 30vw !important;
+   padding: 4px;
+   padding-left: 25px;
+
+   .form {
+      margin-top: 20px;
+      min-width: 150px;
+      max-width: 500px;
+      width: 100%;
+
+      .field {
+        width: 100%;
+      }
+    }
+ }

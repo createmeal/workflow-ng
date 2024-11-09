@@ -13,7 +13,7 @@ import { NavComponent } from "@app/components/nav/nav.component";
 import { PageSelectorComponent } from "@app/components/page-selector/page-selector.component";
 import {MatExpansionModule} from '@angular/material/expansion';
 import { v4 as uuidv4} from "uuid";
-import { PagesToolbarComponent } from "@app/components/pages-toolbar/pages-toolbar.component";
+import { PagesToolbarComponent } from "@app/components/pages-toolbar/pages-toolbar.component";''
 
 @Component({
   selector: 'app-designer',
@@ -27,9 +27,15 @@ export class DesignerComponent {
   editor:Drawflow|null = null;
   @Input() package: DrawFlowPackageModel|null = null;
   @Output() close: EventEmitter<any> = new EventEmitter();
-   
+  
   pages:Array<string> = ["Home"];
-  components:Array<StepEntity> = [];
+  generalSteps:Array<StepEntity> = [];
+  httpSteps:Array<StepEntity> = [];
+  stepProperties: any = {
+    name: "",
+    isVisible: false,
+    variables: []
+  }
   private stepRenderer!: ComponentRef<StepRendererComponent>;
   constructor(private viewContainerRef: ViewContainerRef, 
     private injector: Injector, 
@@ -39,7 +45,10 @@ export class DesignerComponent {
 
   ngOnInit() {
     this.stepRenderer = this.viewContainerRef.createComponent(StepRendererComponent, { injector: this.injector });
-    this.stepService.list().then(components=> this.components = components);
+    this.stepService.list().then(steps=> {
+      this.generalSteps = steps.filter(step=> !step.name.startsWith("Http"));
+      this.httpSteps = steps.filter(step=> step.name.startsWith("Http"));
+    });
   }
 
   ngAfterViewInit(){
@@ -71,7 +80,7 @@ export class DesignerComponent {
     event.preventDefault();
   }
   addNodeToDrawFlow(componentId:string, posX:number, posY:number){    
-    const stepEntity = this.components.find((item: StepEntity)=> item.id === componentId);
+    const stepEntity = this.generalSteps.concat(this.httpSteps).find((item: StepEntity)=> item.id === componentId);
     if(!stepEntity){
       throw Error("Step component not found");
     }
@@ -84,11 +93,21 @@ export class DesignerComponent {
       stepEntity.outputsCount, 
       this.getPosX(posX), 
       this.getPosY(posY), 
-      `${stepEntity.name} ${stepEntity.class??''}`.trim(), 
+      `${stepEntity.name}`.trim(), 
       stepEntity.variables, 
       this.stepRenderer.instance.renderComponent(stepEntity),
       false
     );
+    document.querySelectorAll(".step-edit-icon").forEach(icon=>icon.addEventListener("click",(event:Event)=>this.openStepProperties((event?.target as HTMLElement).getAttribute('step-name'))));
+  }
+  openStepProperties(stepName: string | null){
+    if(!stepName) return;
+    this.stepProperties.isVisible = true;
+    const match = this.httpSteps.find(step=> step.name === stepName);
+    if(match){
+      this.stepProperties.name = stepName;
+      this.stepProperties.variables = Object.keys(match.variables).map(key=>({name: key, value: match.variables[key]}));
+    }
   }
   getPosX(posX: number): number{
     const {precanvas, zoom} = this.editor!;

@@ -8,6 +8,9 @@ import { MatTableModule } from '@angular/material/table';
 import { MatIconModule } from "@angular/material/icon";
 import { MatDividerModule } from '@angular/material/divider';
 import { MatTabsModule } from "@angular/material/tabs";
+import {MatInputModule} from '@angular/material/input';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {FormsModule} from '@angular/forms';
 
 const modules = [
   CommonModule,
@@ -18,7 +21,10 @@ const modules = [
   MatTableModule,
   MatIconModule,
   MatDividerModule,
-  MatTabsModule
+  MatTabsModule,
+  MatInputModule,
+  MatFormFieldModule,
+  FormsModule
 ]
 
 @NgModule({

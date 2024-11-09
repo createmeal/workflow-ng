@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
-
+import { SharedModule } from '@app/shared/shared.module';
 @Component({
   selector: 'app-step',
   standalone: true,
-  imports: [],
+  imports: [SharedModule],
   templateUrl: './step.component.html',
   styleUrl: './step.component.scss'
 })
 export class StepComponent {
-  title: string = "component title";
-  
+  title: string = "component title";  
+  description: string = "component description";
 }
